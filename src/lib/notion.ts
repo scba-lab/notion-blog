@@ -30,9 +30,9 @@ export interface PostWithContent extends Post {
 
 // Helper to check if response is a full page
 function isFullPage(
-  response: PageObjectResponse | PartialPageObjectResponse
+  response: any
 ): response is PageObjectResponse {
-  return "properties" in response;
+  return "properties" in response && response.object === "page";
 }
 
 // Helper to extract text from Notion rich text
