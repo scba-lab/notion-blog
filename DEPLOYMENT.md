@@ -1,6 +1,6 @@
 # Vercel Deployment Guide
 
-GitHub Repository created: https://github.com/SunghunJun/notion-blog
+GitHub Repository created: https://github.com/scba-lab/notion-blog
 
 ## Deploy on Vercel
 
@@ -10,7 +10,7 @@ https://vercel.com
 ### 2. Import Project
 1. Click "Add New Project" or "Import Project"
 2. Connect GitHub (if first time, link your GitHub account)
-3. Select repository: `SunghunJun/notion-blog`
+3. Select repository: `scba-lab/notion-blog`
 4. Click "Import"
 
 ### 3. Project Settings

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-social": "ts-node --project tsconfig.json src/scripts/generate-social.ts"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.14",
@@ -23,6 +24,7 @@
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }

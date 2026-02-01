@@ -51,7 +51,7 @@ export default async function HomePage() {
         <div className="container">
           <h1 className="hero-title">Welcome</h1>
           <p className="hero-subtitle">
-            Stories and insights from a journey across Korea, Germany, and Spain — 
+            Stories and insights from a journey across Seoul, Berlin, and Madrid —
             navigating tech careers, supply chain operations, and life between cultures.
           </p>
         </div>

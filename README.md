@@ -6,10 +6,11 @@ A Next.js 14 blog powered by Notion as a headless CMS.
 
 **Production Site**: https://notion-blog-cosqyu0km-sunghun-juns-projects.vercel.app
 
-**GitHub Repository**: https://github.com/SunghunJun/notion-blog
+**GitHub Repository**: https://github.com/scba-lab/notion-blog
 
 ## ✨ Features
 
+### Blog Features
 - 🎨 Notion-style UI with system fonts
 - 📝 Auto-convert Notion pages to blog posts
 - 🔄 ISR (Incremental Static Regeneration) - Auto-refresh every 60s
@@ -17,6 +18,14 @@ A Next.js 14 blog powered by Notion as a headless CMS.
 - 🏷️ Tag system
 - 📱 Responsive design
 - 🚀 Auto-deployment with Vercel
+
+### Content Tracker (NEW!)
+- 📊 Track content through Research → Draft → Published → Promoted
+- ✅ Multi-step task breakdown for each post
+- 📅 Due dates and progress tracking
+- 🤖 Auto-generate social media content (X, LinkedIn, Threads)
+- 🔗 Link tracker items to blog posts
+- 🏷️ Tags and priority management
 
 ## 🚀 Getting Started
 
@@ -98,7 +107,7 @@ git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/notion-blog.git
+git remote add origin https://github.com/scba-lab/notion-blog.git
 git push -u origin main
 ```
 
@@ -142,19 +151,23 @@ Modify the `site-nav` section in `src/app/layout.tsx`
 ```
 notion-blog/
 ├── src/
-│   ├── app/
-│   │   ├── globals.css      # Global styles
-│   │   ├── layout.tsx       # Root layout
-│   │   ├── page.tsx         # Homepage
-│   │   ├── not-found.tsx    # 404 page
-│   │   └── posts/
-│   │       ├── page.tsx     # Posts list
-│   │       └── [slug]/
-│   │           └── page.tsx # Individual post
-│   └── lib/
-│       └── notion.ts        # Notion API functions
+│   ├── app/                 # Next.js app
+│   ├── lib/
+│   │   ├── notion.ts        # Blog API functions
+│   │   └── notion-tracker.ts # Tracker API functions
+│   ├── types/
+│   │   └── tracker.ts       # TypeScript types
+│   └── scripts/
+│       └── generate-social.ts # Social content generator
+├── content/                 # Blog post content
+│   └── first-post/
+│       ├── blog-post.md
+│       └── social-media.md
+├── guides/                  # Publishing workflow guides
+│   ├── notion-publishing.md
+│   ├── x-posting.md
+│   └── content-tracker-workflow.md
 ├── .env.local               # Environment variables
-├── next.config.js           # Next.js config
 └── package.json
 ```
 
@@ -163,6 +176,42 @@ notion-blog/
 - Uses ISR (Incremental Static Regeneration)
 - Content auto-refreshes every 60 seconds
 - Updates from Notion appear within 1 minute
+
+## 📊 Content Tracker System
+
+Manage your entire content creation workflow in Notion!
+
+### Quick Start
+
+1. **Set up tracker database** (5 minutes)
+   - See `CONTENT_TRACKER_SETUP.md` for detailed instructions
+   - Add `TRACKER_DATABASE_ID` to `.env.local`
+
+2. **Create tracker items** in Notion
+   - Track content from idea → published
+   - Manage deadlines and progress
+
+3. **Generate social content** (when post is published)
+   ```bash
+   npm run generate-social
+   ```
+   - Auto-generates X threads, LinkedIn posts, Threads content
+   - Saves to Notion for easy copy-paste
+
+### Documentation
+
+- **Setup**: `CONTENT_TRACKER_SETUP.md` - Complete setup guide
+- **Workflow**: `guides/content-tracker-workflow.md` - Daily workflow
+- **Content Organization**: `CONTENT_ORGANIZATION.md` - File structure
+
+### Features
+
+- ✅ Multi-stage workflow tracking (Research → Promoted)
+- ✅ Progress tracking (0-100%)
+- ✅ Due dates and priorities
+- ✅ Link to blog posts
+- ✅ Auto-generate social content with Claude Code
+- ✅ Platform-specific content (X, LinkedIn, Threads)
 
 ## 🤝 Contributing
 

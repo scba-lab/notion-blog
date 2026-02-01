@@ -2,12 +2,24 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sunghun's Blog",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  title: {
+    default: "Sunghun's Blog",
+    template: "%s | Sunghun's Blog",
+  },
   description: "Insights on tech careers, supply chain, and life across cultures",
   openGraph: {
     title: "Sunghun's Blog",
     description: "Insights on tech careers, supply chain, and life across cultures",
     type: "website",
+    url: '/',
+    siteName: "Sunghun's Blog",
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 

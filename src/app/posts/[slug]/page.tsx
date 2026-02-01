@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${post.title} | Sunghun's Blog`,
+    title: post.title,
     description: post.description || `Read ${post.title} on Sunghun's Blog`,
     openGraph: {
       title: post.title,
@@ -39,6 +39,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       tags: post.tags,
+      url: `/posts/${slug}`,
+    },
+    alternates: {
+      canonical: `/posts/${slug}`,
     },
   };
 }
