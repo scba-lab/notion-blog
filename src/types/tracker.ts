@@ -57,17 +57,3 @@ export interface UpdateTrackerItemParams {
   contentGenerated?: boolean;
   socialPosted?: boolean;
 }
-
-export interface SocialContent {
-  x: string;
-  linkedIn: string;
-  threads: string;
-}
-
-export interface GenerateSocialContentParams {
-  blogPostSlug: string;
-  blogPostTitle: string;
-  blogPostContent: string;
-  blogPostDescription: string;
-  blogPostTags: string[];
-}

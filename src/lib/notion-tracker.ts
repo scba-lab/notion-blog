@@ -27,6 +27,27 @@ function isFullPage(response: any): response is PageObjectResponse {
   return "properties" in response && response.object === "page";
 }
 
+// Helper to split long text into chunks (Notion has 2000 char limit per block)
+function createRichTextBlocks(text: string): Array<{ text: { content: string } }> {
+  const MAX_LENGTH = 2000;
+  const blocks: Array<{ text: { content: string } }> = [];
+
+  if (text.length <= MAX_LENGTH) {
+    return [{ text: { content: text } }];
+  }
+
+  // Split into chunks of MAX_LENGTH
+  for (let i = 0; i < text.length; i += MAX_LENGTH) {
+    blocks.push({
+      text: {
+        content: text.substring(i, i + MAX_LENGTH)
+      }
+    });
+  }
+
+  return blocks;
+}
+
 // Helper to extract text from Notion rich text
 function getTextFromRichText(richText: any[]): string {
   if (!richText || richText.length === 0) return "";
@@ -120,7 +141,7 @@ export async function createTrackerItem(
 
     if (params.tasks) {
       properties.Tasks = {
-        rich_text: [{ text: { content: params.tasks } }],
+        rich_text: createRichTextBlocks(params.tasks),
       };
     }
 
@@ -191,7 +212,7 @@ export async function updateTrackerItem(
 
     if (params.tasks !== undefined) {
       properties.Tasks = {
-        rich_text: [{ text: { content: params.tasks } }],
+        rich_text: createRichTextBlocks(params.tasks),
       };
     }
 
@@ -203,19 +224,19 @@ export async function updateTrackerItem(
 
     if (params.xContent !== undefined) {
       properties["X Content"] = {
-        rich_text: [{ text: { content: params.xContent } }],
+        rich_text: createRichTextBlocks(params.xContent),
       };
     }
 
     if (params.linkedInContent !== undefined) {
       properties["LinkedIn Content"] = {
-        rich_text: [{ text: { content: params.linkedInContent } }],
+        rich_text: createRichTextBlocks(params.linkedInContent),
       };
     }
 
     if (params.threadsContent !== undefined) {
       properties["Threads Content"] = {
-        rich_text: [{ text: { content: params.threadsContent } }],
+        rich_text: createRichTextBlocks(params.threadsContent),
       };
     }
 

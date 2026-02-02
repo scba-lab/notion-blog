@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * Interactive Social Content Generator
+ * Automated Social Content Generator
  *
  * This script:
  * 1. Finds published blog posts without social content
  * 2. Displays them to the user
  * 3. Reads the blog post content
- * 4. Provides content to Claude Code for social content generation
- * 5. Prompts user to provide generated content
- * 6. Saves to Notion tracker database
+ * 4. Automatically generates social content using Claude API
+ * 5. Saves to Notion tracker database
  */
+
+// Load environment variables from .env.local
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 import { getAllPosts, getPostBySlug } from "../lib/notion";
 import {
@@ -19,6 +23,7 @@ import {
   updateSocialContent,
   createTrackerItem,
 } from "../lib/notion-tracker";
+import Anthropic from "@anthropic-ai/sdk";
 import * as readline from "readline";
 
 const rl = readline.createInterface({
@@ -30,8 +35,126 @@ function question(query: string): Promise<string> {
   return new Promise((resolve) => rl.question(query, resolve));
 }
 
+// Initialize Anthropic client
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+interface SocialContent {
+  xContent: string;
+  linkedInContent: string;
+  threadsContent: string;
+}
+
+async function generateSocialContent(
+  title: string,
+  description: string,
+  tags: string[],
+  content: string
+): Promise<SocialContent> {
+  console.log("\n🤖 Generating social content with Claude Haiku...\n");
+
+  const prompt = `Generate social media content for this blog post:
+
+Title: ${title}
+Description: ${description}
+Tags: ${tags.join(", ")}
+
+Content Preview (first 2000 chars):
+${content.substring(0, 2000)}${content.length > 2000 ? "..." : ""}
+
+Please create three sections:
+
+1. X (Twitter) Thread:
+   - Create 9 tweets, each under 280 characters
+   - Separate each tweet with "---"
+   - Start with "Tweet 1/9:", "Tweet 2/9:", etc.
+   - Make it engaging and thread-worthy
+   - Focus on key insights and takeaways
+
+2. LinkedIn Post:
+   - Professional tone, 1300-2000 characters
+   - Include emojis for visual appeal
+   - Add relevant hashtags at the end
+   - Focus on business value and lessons learned
+
+3. Threads Post:
+   - Create 9 posts, casual and engaging tone
+   - Separate each post with "---"
+   - Start with "Post 1/9:", "Post 2/9:", etc.
+   - Make it conversational and approachable
+
+Format your response EXACTLY like this:
+
+=== X CONTENT ===
+Tweet 1/9:
+[tweet content]
+
+---
+
+Tweet 2/9:
+[tweet content]
+
+(etc for all 9 tweets)
+
+=== LINKEDIN CONTENT ===
+[linkedin post content]
+
+=== THREADS CONTENT ===
+Post 1/9:
+[post content]
+
+---
+
+Post 2/9:
+[post content]
+
+(etc for all 9 posts)`;
+
+  try {
+    const response = await anthropic.messages.create({
+      model: "claude-3-haiku-20240307",
+      max_tokens: 4096,
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+
+    const generatedContent = response.content[0].type === "text"
+      ? response.content[0].text
+      : "";
+
+    // Parse the response
+    const xMatch = generatedContent.match(/=== X CONTENT ===([\s\S]*?)(?:=== LINKEDIN CONTENT ===|$)/);
+    const linkedInMatch = generatedContent.match(/=== LINKEDIN CONTENT ===([\s\S]*?)(?:=== THREADS CONTENT ===|$)/);
+    const threadsMatch = generatedContent.match(/=== THREADS CONTENT ===([\s\S]*?)$/);
+
+    const xContent = xMatch ? xMatch[1].trim() : "";
+    const linkedInContent = linkedInMatch ? linkedInMatch[1].trim() : "";
+    const threadsContent = threadsMatch ? threadsMatch[1].trim() : "";
+
+    console.log("✅ Social content generated successfully!\n");
+    console.log(`📊 Generated:`);
+    console.log(`   X: ${xContent.split("---").length} tweets`);
+    console.log(`   LinkedIn: ${linkedInContent.length} characters`);
+    console.log(`   Threads: ${threadsContent.split("---").length} posts\n`);
+
+    return {
+      xContent,
+      linkedInContent,
+      threadsContent,
+    };
+  } catch (error) {
+    console.error("❌ Error generating content:", error);
+    throw error;
+  }
+}
+
 async function main() {
-  console.log("\n🚀 Social Content Generator\n");
+  console.log("\n🚀 Social Content Generator (Automated)\n");
   console.log("=" .repeat(50));
 
   try {
@@ -144,71 +267,21 @@ async function main() {
     console.log("=" .repeat(50));
     console.log();
 
-    // Step 8: Show content preview
-    const contentPreview = fullPost.content.substring(0, 500);
-    console.log("📄 Content Preview:");
-    console.log("-" .repeat(50));
-    console.log(contentPreview);
-    if (fullPost.content.length > 500) {
-      console.log("\n[... content continues ...]");
-    }
-    console.log("-" .repeat(50));
-    console.log();
+    // Step 8: Auto-generate social content
+    const socialContent = await generateSocialContent(
+      fullPost.title,
+      fullPost.description,
+      fullPost.tags,
+      fullPost.content
+    );
 
-    // Step 9: Provide instructions for Claude Code
-    console.log("=" .repeat(50));
-    console.log("GENERATE SOCIAL CONTENT");
-    console.log("=" .repeat(50));
-    console.log();
-    console.log("📝 Now, ask Claude Code to generate social content!");
-    console.log();
-    console.log("Example prompt:");
-    console.log("-" .repeat(50));
-    console.log(`Generate social media content for this blog post:
-
-Title: ${fullPost.title}
-Description: ${fullPost.description}
-Tags: ${fullPost.tags.join(", ")}
-
-Please create:
-1. X (Twitter) thread (9 tweets, 280 chars each)
-2. LinkedIn post (professional tone, 1300-2000 chars)
-3. Threads post (casual, engaging, 9 posts)
-
-Make sure content captures the key insights and is platform-appropriate.`);
-    console.log("-" .repeat(50));
-    console.log();
-
-    const proceed = await question("Have you generated the content? (y/n): ");
-
-    if (proceed.toLowerCase() !== "y") {
-      console.log("\n👋 Come back when content is ready!\n");
-      rl.close();
-      return;
-    }
-
-    // Step 10: Collect generated content
-    console.log("\n📥 Paste the generated content:\n");
-
-    console.log("X (Twitter) content:");
-    console.log("(Paste all tweets separated by '---', then press Enter twice)\n");
-    const xContent = await readMultilineInput();
-
-    console.log("\nLinkedIn content:");
-    console.log("(Paste the post, then press Enter twice)\n");
-    const linkedInContent = await readMultilineInput();
-
-    console.log("\nThreads content:");
-    console.log("(Paste all posts separated by '---', then press Enter twice)\n");
-    const threadsContent = await readMultilineInput();
-
-    // Step 11: Save to Notion
-    console.log("\n💾 Saving to Notion tracker database...\n");
+    // Step 9: Save to Notion
+    console.log("💾 Saving to Notion tracker database...\n");
 
     const updated = await updateSocialContent(selectedItem.id, {
-      xContent: xContent.trim(),
-      linkedInContent: linkedInContent.trim(),
-      threadsContent: threadsContent.trim(),
+      xContent: socialContent.xContent,
+      linkedInContent: socialContent.linkedInContent,
+      threadsContent: socialContent.threadsContent,
     });
 
     if (updated) {
@@ -231,29 +304,6 @@ Make sure content captures the key insights and is platform-appropriate.`);
   } finally {
     rl.close();
   }
-}
-
-async function readMultilineInput(): Promise<string> {
-  const lines: string[] = [];
-  let emptyLineCount = 0;
-
-  return new Promise((resolve) => {
-    const handler = (line: string) => {
-      if (line.trim() === "") {
-        emptyLineCount++;
-        if (emptyLineCount >= 2) {
-          rl.removeListener("line", handler);
-          resolve(lines.join("\n"));
-          return;
-        }
-      } else {
-        emptyLineCount = 0;
-        lines.push(line);
-      }
-    };
-
-    rl.on("line", handler);
-  });
 }
 
 // Run the script

@@ -3,6 +3,7 @@
 ## X (Twitter) - Thread
 
 **Tweet 1 (Hook)**
+
 ```
 I built and deployed a production-ready blog in one afternoon using AI.
 
@@ -13,6 +14,7 @@ Here's exactly how I did it (and what I learned about AI-assisted development): 
 ```
 
 **Tweet 2**
+
 ```
 The Stack:
 • Next.js 14 (App Router)
@@ -29,6 +31,7 @@ Live site: [your-url]
 ```
 
 **Tweet 3**
+
 ```
 Why Notion as CMS?
 
@@ -44,6 +47,7 @@ I wanted:
 ```
 
 **Tweet 4**
+
 ```
 The AI Partnership:
 
@@ -58,6 +62,7 @@ This is 2026 development.
 ```
 
 **Tweet 5**
+
 ```
 The hardest part wasn't code.
 
@@ -70,6 +75,7 @@ When you read my blog, it feels like reading in Notion. That's intentional.
 ```
 
 **Tweet 6**
+
 ```
 Technical highlights:
 
@@ -86,6 +92,7 @@ All working together seamlessly.
 ```
 
 **Tweet 7**
+
 ```
 Lessons learned:
 
@@ -97,6 +104,7 @@ I built in hours what would've taken me weeks before AI assistance.
 ```
 
 **Tweet 8**
+
 ```
 The real insight:
 
@@ -112,6 +120,7 @@ GitHub: [repo-url]
 ```
 
 **Tweet 9 (Call to action)**
+
 ```
 The entire project is open source.
 
@@ -128,6 +137,7 @@ Tech details, challenges faced, and career insights in my first post:
 ## Threads - Story Format
 
 **Post 1**
+
 ```
 okay so I finally did the thing I've been putting off for months...
 
@@ -137,6 +147,7 @@ Let me tell you how this happened 👇
 ```
 
 **Post 2**
+
 ```
 I've always wanted to write but every platform felt wrong:
 
@@ -150,6 +161,7 @@ So that's what I built.
 ```
 
 **Post 3**
+
 ```
 The setup is kind of beautiful in its simplicity:
 
@@ -161,6 +173,7 @@ Just: write, save, live within 60 seconds.
 ```
 
 **Post 4**
+
 ```
 Here's the part that still blows my mind...
 
@@ -178,6 +191,7 @@ This is what development feels like in 2026.
 ```
 
 **Post 5**
+
 ```
 The design was the fun challenge.
 
@@ -193,6 +207,7 @@ When you read my blog, it should feel like you never left Notion.
 ```
 
 **Post 6**
+
 ```
 Real talk: this represents something bigger for me.
 
@@ -206,6 +221,7 @@ This blog has all three. Built fast, coded precisely, zero maintenance.
 ```
 
 **Post 7**
+
 ```
 Also bringing my supply chain background into this:
 
@@ -219,6 +235,7 @@ JIT manufacturing but for blog posts lol
 ```
 
 **Post 8**
+
 ```
 What I learned:
 
@@ -233,6 +250,7 @@ That's the real superpower.
 ```
 
 **Post 9**
+
 ```
 The blog is live, open source, and cost me $0.
 
@@ -254,6 +272,7 @@ Let's normalize building in public 🚀
 ## LinkedIn - Professional Post
 
 **Main Post**
+
 ```
 🚀 I Built and Deployed a Production Blog in 3 Hours Using AI-Assisted Development
 
@@ -322,6 +341,7 @@ What are your experiences with AI-assisted development? I'd love to hear your th
 ```
 
 **Alternative LinkedIn - Shorter Version**
+
 ```
 After months of "I should start a blog," I finally did it – in 3 hours.
 
@@ -353,18 +373,21 @@ Read the full story: [your-url]
 ## Usage Guide
 
 ### X (Twitter) Thread
+
 - Post over 9 tweets
 - Wait 2-3 minutes between tweets for engagement
 - Pin the first tweet
 - Engage with replies actively
 
 ### Threads
+
 - Post all 9 as a thread at once
 - More casual, conversational tone
 - Use your authentic voice
 - Encourage responses with questions
 
 ### LinkedIn
+
 - Use the main post (longer version) for maximum reach
 - Or use shorter version for quick engagement
 - Post during business hours (9-11 AM or 1-3 PM)
@@ -372,6 +395,7 @@ Read the full story: [your-url]
 - Consider adding a relevant image or screenshot
 
 ### Timing
+
 - **X**: Anytime, but 9 AM - 12 PM EST gets good engagement
 - **Threads**: Evening posts (6-9 PM) perform well
 - **LinkedIn**: Tuesday-Thursday, 9 AM - 11 AM for B2B audience
@@ -379,6 +403,7 @@ Read the full story: [your-url]
 ---
 
 **Pro Tips:**
+
 1. Post LinkedIn first (most professional)
 2. Then X thread (drives quick traffic)
 3. Finally Threads (most casual)
